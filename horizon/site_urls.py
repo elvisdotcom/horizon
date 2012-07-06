@@ -39,6 +39,11 @@ urlpatterns += patterns('',
         name="set_language"),
     url(r'^i18n/', include('django.conf.urls.i18n')))
 
+urlpatterns += patterns('horizon',
+    url(r'^facebook/login$', 'facebook.views.login'),
+    url(r'^facebook/authentication_callback$', 'facebook.views.authentication_callback'),
+)
+
 if settings.DEBUG:
     urlpatterns += patterns('',
         url(r'^qunit/$',

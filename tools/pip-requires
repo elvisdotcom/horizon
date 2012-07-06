@@ -6,6 +6,6 @@ python-glanceclient
 python-keystoneclient
 python-novaclient
 pytz
-
+django-social-auth
 # Horizon Utility Requirements
 lockfile # for SECURE_KEY generation
