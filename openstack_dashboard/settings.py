@@ -125,10 +125,20 @@ INSTALLED_APPS = (
     'horizon.dashboards.syspanel',
     'horizon.dashboards.settings',
     'openstack_auth',
+#    'horizon.facebook',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 AUTHENTICATION_BACKENDS = ('openstack_auth.backend.KeystoneBackend',)
+
+# Facebook settings are set via environment variables
+
+#AUTH_PROFILE_MODULE = 'horizon.facebook.FacebookProfile'
+
+#AUTHENTICATION_BACKENDS = (
+#    'horizon.facebook.backend.FacebookBackend',
+#    'django.contrib.auth.backends.ModelBackend',
+#)
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'

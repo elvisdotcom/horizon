@@ -42,3 +42,10 @@ if settings.DEBUG:
         url(r'^qunit/$',
             TemplateView.as_view(template_name="horizon/qunit.html"),
             name='qunit_tests'))
+    
+
+urlpatterns += patterns('horizon',
+    url(r'^facebook/login$', 'facebook.views.login'),
+    url(r'^facebook/authentication_callback$', 'facebook.views.authentication_callback'),
+)
+

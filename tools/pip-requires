@@ -9,6 +9,26 @@ python-novaclient
 python-quantumclient>=2.0
 python-swiftclient>1.1,<2
 pytz
+# Glance Requirements
+PasteDeploy
+eventlet
+kombu
+paste
+pycrypto==2.3
+routes
+sqlalchemy
+sqlalchemy-migrate
+webob==1.0.8
+xattr
+iso8601
 
-# Horizon Utility Requirements
+# Horizon Non-pip Requirements
+-e git+https://github.com/openstack/python-novaclient.git#egg=python-novaclient
+-e git+https://github.com/openstack/python-keystoneclient.git#egg=python-keystoneclient
+-e git+https://github.com/openstack/glance.git#egg=glance
+python-glanceclient
+python-keystoneclient
+python-novaclient
+pytz
+django-social-auth
 lockfile # for SECURE_KEY generation
