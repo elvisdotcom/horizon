@@ -91,6 +91,8 @@ STATICFILES_DIRS = (
 
 INSTALLED_APPS = (
     'openstack_dashboard',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -99,10 +101,24 @@ INSTALLED_APPS = (
     'horizon.dashboards.nova',
     'horizon.dashboards.syspanel',
     'horizon.dashboards.settings',
+    'horizon.facebook',
+)
+
+
+# Facebook settings are set via environment variables
+FACEBOOK_APP_ID = '448675451823188' #os.environ['FACEBOOK_APP_ID']
+FACEBOOK_APP_SECRET = '50da6b7c719efb8a22c70df4fb03315d' #os.environ['FACEBOOK_APP_SECRET']
+FACEBOOK_SCOPE = 'email'
+
+AUTH_PROFILE_MODULE = 'horizon.facebook.FacebookProfile'
+
+AUTHENTICATION_BACKENDS = (
+    'horizon.facebook.backend.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
+#AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
