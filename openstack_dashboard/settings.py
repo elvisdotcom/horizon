@@ -41,8 +41,8 @@ LOGIN_REDIRECT_URL = '/'
 MEDIA_ROOT = os.path.abspath(os.path.join(ROOT_PATH, '..', 'media'))
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.abspath(os.path.join(ROOT_PATH, '..', 'static'))
-STATIC_URL = '/static/'
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+STATIC_URL = '/essex/static/'
+ADMIN_MEDIA_PREFIX = '/essex/static/admin/'
 
 CREDENTIAL_AUTHORIZATION_DAYS = '5'
 
