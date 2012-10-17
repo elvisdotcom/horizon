@@ -113,8 +113,8 @@ COMPRESS_PARSER = 'compressor.parser.HtmlParser'
 
 INSTALLED_APPS = (
     'openstack_dashboard',
-    'django.contrib.contenttypes',
     'django.contrib.auth',
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -125,15 +125,17 @@ INSTALLED_APPS = (
     'horizon.dashboards.syspanel',
     'horizon.dashboards.settings',
     'openstack_auth',
-#    'horizon.facebook',
+    'horizon.facebook',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-AUTHENTICATION_BACKENDS = ('openstack_auth.backend.KeystoneBackend',)
+AUTHENTICATION_BACKENDS = ('horizon.facebook.backend.FacebookBackend',
+                           'openstack_auth.backend.KeystoneBackend',)
 
+#AUTHENTICATION_BACKENDS = ('horizon.facebook.backend.FacebookBackend', )
 # Facebook settings are set via environment variables
 
-#AUTH_PROFILE_MODULE = 'horizon.facebook.FacebookProfile'
+AUTH_PROFILE_MODULE = 'horizon.facebook.FacebookProfile'
 
 #AUTHENTICATION_BACKENDS = (
 #    'horizon.facebook.backend.FacebookBackend',
