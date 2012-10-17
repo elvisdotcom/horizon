@@ -24,8 +24,8 @@ def authentication_callback(request):
     It reads in a code from Facebook, then redirects back to the home page. """
     code = request.GET.get('code')
     user = authenticate(token=code, request=request)
-    set_session_from_user(request, user)
     auth_login(request, user)
+    set_session_from_user(request, user)
     region = request.user.endpoint
     region_name = dict(Login.get_region_choices()).get(region)
     request.session['region_endpoint'] = region

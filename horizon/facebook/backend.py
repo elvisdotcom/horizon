@@ -60,44 +60,47 @@ class FacebookBackend:
 
         except FacebookProfile.DoesNotExist:
             # No existing user
-
-            facebook_id = fb_profile['id']
-            username = "facebook%s" % facebook_id
             try:
-                user = User.objects.create_user(username, fb_profile['email'])
-            except IntegrityError:
-                # Username already exists, make it unique
-                existing_user = User.objects.get(username=username)
-                existing_user.delete()
-                user = User.objects.create_user(username, fb_profile['email'])
-            user.save()
+                facebook_id = fb_profile['id']
+                username = "facebook%s" % facebook_id
+                try:
+                    user = User.objects.create_user(username, fb_profile['email'])
+                except IntegrityError:
+                    # Username already exists, make it unique
+                    existing_user = User.objects.get(username=username)
+                    existing_user.delete()
+                    user = User.objects.create_user(username, fb_profile['email'])
+                user.save()
 
-            password = "".join([random.choice(
-                                    string.ascii_lowercase + string.digits)
-                               for i in range(8)])
-            # Create the FacebookProfile
-            fb_user = FacebookProfile(user=user, facebook_id=fb_profile['id'],
-                                      access_token=access_token,
-                                      password=password)
-            tenant_name = "facebook%s" % fb_profile['id']
-            keystone_admin = self._admin_client()
+                password = "".join([random.choice(
+                                        string.ascii_lowercase + string.digits)
+                                   for i in range(8)])
+                # Create the FacebookProfile
+                fb_user = FacebookProfile(user=user, facebook_id=fb_profile['id'],
+                                          access_token=access_token,
+                                          password=password)
+                tenant_name = "facebook%s" % fb_profile['id']
+                keystone_admin = self._admin_client()
 
-            tenant = keystone_admin.tenants.create(tenant_name,
-                                                   "Auto created account",
+                tenant = keystone_admin.tenants.create(tenant_name,
+                                                       "Auto created account",
+                                                       True)
+                user = keystone_admin.users.create(tenant_name,
+                                                   password,
+                                                   fb_profile['email'],
+                                                   tenant.id,
                                                    True)
-            user = keystone_admin.users.create(tenant_name,
-                                               password,
-                                               fb_profile['email'],
-                                               tenant.id,
-                                               True)
-            admin_user_role = '193c1acbde854269a00386cff6ed16f2'
-            keystone_admin.roles.add_user_role(user.id,
-                                               admin_user_role,
-                                               tenant.id)
+                admin_user_role = '88c1f69ec4954d9ab3a82ec662537911'
+                member_user_role = '193c1acbde854269a00386cff6ed16f2'
+                keystone_admin.roles.add_user_role(user.id,
+                                                   member_user_role,
+                                                   tenant.id)
+                fb_user.tenant_id = tenant.id
+                tenant_id = fb_user.tenant_id
+                fb_user.save()
+            except:
+                fb_user.delete()
 
-            fb_user.tenant_id = tenant.id
-            tenant_id = fb_user.tenant_id
-            fb_user.save()
         facebook_id = fb_profile['id']
         username = "facebook%s" % facebook_id
         try:
@@ -113,7 +116,7 @@ class FacebookBackend:
                 user = keystone.authenticate(request=request,
                                       username=username,
                                       password=password,
-                                      tenant=tenant_id,
+                                      tenant=None,
                                       auth_url=settings.OPENSTACK_KEYSTONE_URL)
                 return user
             else:
